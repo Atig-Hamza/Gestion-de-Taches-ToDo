@@ -106,7 +106,6 @@ int main()
 
             break;
 
-
         case 2:
             int nbTach;
             printf("\n\n________________________________________________________");
@@ -115,88 +114,201 @@ int main()
             getchar();
             int qu = totaltach;
 
-            for (int i = qu; i < nbTach; i++)
+            for (int i = 0; i < nbTach; i++)
             {
-                printf("Ajouter une tache\n");
-                printf("identifiant du tach est: %d\n", qu + 1);
-                printf("le titre du tach: ");
-                scanf("%[^\n]", &T1[i]);
-                getchar();
-                printf("la description du tach: ");
-                scanf("%[^\n]", &T2[i]);
-                getchar();
-                printf("la deadline du tach: \n");
-                printf("\t\tentre l'annee: ");
-                scanf("%[^\n]", &T3[i]);
-                getchar();
-                printf("\t\tentre le mois: ");
-                scanf("%[^\n]", &T4[i]);
-                getchar();
-                printf("\t\tentre le jour: ");
-                scanf("%[^\n]", &T5[i]);
-                getchar();
-                printf("le statut du tach: ");
-                scanf("%[^\n]", &T6[i]);
-                getchar();
-                qu++;
-                totaltach++;
-
-                if (anne > 2024)
+                for (int i = totaltach; i < totaltach + 1; i++)
                 {
-                    printf("année invalide\n");
-                    return 0;
-                }
 
-                if (anne == T3[i])
-                {
-                    if (mois > 12)
+                    printf("\nidentifiant du tach est: %d", i + 1);
+                    printf("\nle titre du tach: ");
+                    scanf("%[^\n]", &T1[i]);
+                    getchar();
+                    printf("la description du tach: ");
+                    scanf("%[^\n]", &T2[i]);
+                    getchar();
+                    printf("la deadline du tach: \n");
+                    printf("\t\tentre l'annee: ");
+                    scanf("%d", &T3[i]);
+                    getchar();
+
+                    printf("\t\tentre le mois: ");
+                    scanf("%d", &T4[i]);
+                    getchar();
+
+                    printf("\t\tentre le jour: ");
+                    scanf("%d", &T5[i]);
+                    getchar();
+
+                    printf("le statut du tach: ");
+                    scanf("%[^\n]", &T6[i]);
+                    getchar();
+
+                    if (anne > 2024)
                     {
-                        printf("mois invalide\n");
+                        printf("année invalide\n");
                         return 0;
                     }
-                    if (mois == T4[i])
+
+                    if (anne == T3[i])
                     {
-                        if (jour > 31)
+                        if (mois > 12)
                         {
-                            printf("jour invalide\n");
+                            printf("mois invalide\n");
                             return 0;
                         }
-                        if (jour == T5[i])
+                        if (mois == T4[i])
+                        {
+                            if (jour > 31)
+                            {
+                                printf("jour invalide\n");
+                                return 0;
+                            }
+                            if (jour == T5[i])
+                            {
+                                timeout++;
+                            }
+                        }
+                        else if (mois < T4[i])
                         {
                             timeout++;
                         }
                     }
-                    else if (mois < T4[i])
+                    else if (anne < T3[i])
                     {
                         timeout++;
                     }
                 }
-                else if (anne < T3[i])
-                {
-                    timeout++;
-                }
+
+                totaltach++;
             }
-
             break;
-
 
         case 3:
             printf("\n\n________________________________________________________\n");
             printf("Afficher tous les taches\n");
-            printf("Nombre total de taches: %d\n", totaltach);
-            printf("List des taches\n");
-            for (int i = 0; i < totaltach; i++)
-            {
-                printf("________________________________________________________\n");
-                printf("|identifiant du tach est: %d\n", i + 1);
-                printf("|le titre du tach: %s\n", T1[i]);
-                printf("|la description du tach: %s\n", T2[i]);
-                printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
-                printf("|le statut du tach: %s\n", T6[i]);
-                printf("________________________________________________________\n\n");
-            }
-            break;
+            printf("1-Afficher sans trie\n");
+            printf("2-Afficher par ordre alphabetique\n");
+            printf("3-Afficher par deadline\n");
+            printf("4-Afficher les taches on 3 jours ou moins\n");
+            printf("_______________________________________________________\n");
+            printf("Choisissez une option : ");
+            scanf("%d", &R);
+            getchar();
 
+            switch (R)
+            {
+            case 1:
+                for (int i = 0; i < totaltach; i++)
+                {
+
+                    printf("________________________________________________________\n");
+                    printf("|identifiant du tach est: %d\n", i + 1);
+                    printf("|le titre du tach: %s\n", T1[i]);
+                    printf("|la description du tach: %s\n", T2[i]);
+                    printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                    printf("|le statut du tach: %s\n", T6[i]);
+                    printf("________________________________________________________\n\n");
+                }
+                break;
+
+            case 2:
+                for (int i = 0; i < totaltach; i++)
+                {
+                    for (int j = i + 1; j < totaltach; j++)
+                    {
+                        if (strcmp(T1[i], T1[j]) > 0)
+                        {
+                            char temp1[100];
+                            char temp2[100];
+                            int temp3, temp4, temp5;
+                            char temp6[100];
+
+                            strcpy(temp1, T1[i]);
+                            strcpy(temp2, T2[i]);
+                            temp3 = T3[i];
+                            temp4 = T4[i];
+                            temp5 = T5[i];
+                            strcpy(temp6, T6[i]);
+
+                            strcpy(T1[i], T1[j]);
+                            strcpy(T2[i], T2[j]);
+                            T3[i] = T3[j];
+                            T4[i] = T4[j];
+                            T5[i] = T5[j];
+                            strcpy(T6[i], T6[j]);
+
+                            strcpy(T1[j], temp1);
+                            strcpy(T2[j], temp2);
+                            T3[j] = temp3;
+                            T4[j] = temp4;
+                            T5[j] = temp5;
+                            strcpy(T6[j], temp6);
+                        }
+                    }
+                }
+                for (int i = 0; i < totaltach; i++)
+                {
+                    printf("________________________________________________________\n");
+                    printf("|identifiant du tach est: %d\n", i + 1);
+                    printf("|le titre du tach: %s\n", T1[i]);
+                    printf("|la description du tach: %s\n", T2[i]);
+                    printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                    printf("|le statut du tach: %s\n", T6[i]);
+                    printf("________________________________________________________\n\n");
+                }
+                break;
+
+            case 3:
+                int d, m, y;
+                printf("Entre la date pour afficher les taches par deadline: \n");
+                printf("\t\tentre le jour: ");
+                scanf("%d", &d);
+                printf("\t\tentre le mois: ");
+                scanf("%d", &m);
+                printf("\t\tentre l'annee: ");
+                scanf("%d", &y);
+                printf("\n");
+                for (int i = 0; i < totaltach; i++)
+                {
+                    if (T3[i] == y && T4[i] == m && T5[i] == d)
+                    {
+                        printf("________________________________________________________\n");
+                        printf("|identifiant du tach est: %d\n", i + 1);
+                        printf("|le titre du tach: %s\n", T1[i]);
+                        printf("|la description du tach: %s\n", T2[i]);
+                        printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                        printf("|le statut du tach: %s\n", T6[i]);
+                        printf("________________________________________________________\n\n");
+                    }
+                }
+                break;
+
+            case 4:
+                int today[3] = {jour, mois, anne};
+                for (int i = 0; i < totaltach; i++)
+                {
+                    int deadline[3] = {T5[i], T4[i], T3[i]};
+                    int diff[3] = {deadline[0] - today[0], deadline[1] - today[1], deadline[2] - today[2]};
+                    int days = diff[0] + (diff[1] * 30) + (diff[2] * 365);
+                    if (days <= 3)
+                    {
+                        printf("________________________________________________________\n");
+                        printf("|identifiant du tach est: %d\n", i + 1);
+                        printf("|le titre du tach: %s\n", T1[i]);
+                        printf("|la description du tach: %s\n", T2[i]);
+                        printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                        printf("|le statut du tach: %s\n", T6[i]);
+                        printf("________________________________________________________\n\n");
+                    }
+                }
+                break;
+
+            default:
+                printf("Option invalide\n");
+                break;
+            }
+
+            break;
 
         case 4:
             if (totaltach == 0)
@@ -234,7 +346,7 @@ int main()
                 }
                 else
                 {
-                    
+
                     for (int i = idToDelete; i < totaltach - 1; i++)
                     {
                         strcpy(T1[i], T1[i + 1]);
@@ -244,7 +356,7 @@ int main()
                         T5[i] = T5[i + 1];
                         strcpy(T6[i], T6[i + 1]);
                     }
-                    
+
                     totaltach--;
                     printf("\n\n________________________________________________________\n");
                     printf("La tache %d a ete supprimee\n", idToDelete + 1);
@@ -252,7 +364,6 @@ int main()
                 }
             }
             break;
-
 
         case 5:
             int modif;
@@ -290,7 +401,6 @@ int main()
                     }
                     printf("________________________________________________________\n");
 
-
                     break;
                 case 2:
 
@@ -306,8 +416,6 @@ int main()
                         getchar();
                     }
                     printf("________________________________________________________\n");
-
-
 
                     break;
                 case 3:
@@ -332,8 +440,6 @@ int main()
                     }
                     printf("________________________________________________________\n");
 
-
-
                     break;
                 case 4:
                     return 0;
@@ -346,7 +452,6 @@ int main()
 
                 break;
             }
-
 
         case 6:
             int rech;
@@ -362,9 +467,7 @@ int main()
             printf("le statut de la tache est: %s\n", T6[rech - 1]);
             printf("________________________________________________________\n");
 
-
             break;
-
 
         case 7:
             A = totaltach - timeout;
@@ -375,7 +478,6 @@ int main()
             printf("Nombre de taches finisées: %d\n", timeout);
             printf("________________________________________________________\n");
             break;
-
 
         case 8:
             printf("\n\n________________________________________________________\n");
@@ -392,14 +494,12 @@ int main()
             timeout = 0;
             break;
 
-
         case 9:
             printf("\n\n________________________________________________________\n");
             printf("Aurevoir");
             printf("\n________________________________________________________\n");
             return 0;
             break;
-
 
         default:
             printf("\n\n________________________________________________________\n");
