@@ -454,20 +454,100 @@ int main()
             }
 
         case 6:
-            int rech;
+            int co, rech;
             printf("\n\n________________________________________________________\n");
             printf("Rechercher une tache\n");
-            printf("Entre l'identifiant de la tache a rechercher: ");
-            scanf("%d", &rech);
-            getchar();
-            printf("l identifiant de la tache est: %d\n", rech);
-            printf("le titre de la tache est: %s\n", T1[rech - 1]);
-            printf("la description de la tache est: %s\n", T2[rech - 1]);
-            printf("la deadline de la tache est: %s/%s/%s\n", T5[rech - 1], T4[rech - 1], T3[rech - 1]);
-            printf("le statut de la tache est: %s\n", T6[rech - 1]);
+            printf("1-Rechercher une tache par son identifiant\n");
+            printf("2-Rechercher une tache par son titre\n");
+            printf("3-Aucune\n");
             printf("________________________________________________________\n");
+            printf("Choisissez une option : ");
+            scanf("%d", &co);
+            getchar();
 
-            break;
+            if (totaltach == 0)
+            {
+                printf("\n\n________________________________________________________\n");
+                printf("==> Aucune tache a modifier");
+                printf("\n________________________________________________________\n");
+            }
+            else if (totaltach > 0)
+            {
+                switch (co)
+                {
+                case 1:
+                    printf("Entre l'identifiant de la tache a Rechercher: ");
+                    scanf("%d", &rech);
+                    for (int i = 0; i < totaltach; i++)
+                    {
+                        if (i + 1 == rech)
+                        {
+                            printf("________________________________________________________\n");
+                            printf("|identifiant du tach est: %d\n", i + 1);
+                            printf("|le titre du tach: %s\n", T1[i]);
+                            printf("|la description du tach: %s\n", T2[i]);
+                            printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                            printf("|le statut du tach: %s\n", T6[i]);
+                            printf("________________________________________________________\n\n");
+                            break;
+                        }
+                    }
+                    if (rech > totaltach || rech < 1)
+                    {
+                        printf("\n\n________________________________________________________\n");
+                        printf("==> Identifiant invalide\n");
+                        printf("________________________________________________________\n");
+                    }
+
+                    break;
+
+                case 2:
+                    char titre[100];
+                    printf("Entre le titre de la tache a Rechercher: ");
+                    scanf("%[^\n]", &titre);
+                    getchar();
+                    int trouver = 0;
+                    for (int i = 0; i < totaltach; i++)
+                    {
+                        if (strcmp(T1[i], titre) == 0)
+                        {
+                            printf("________________________________________________________\n");
+                            printf("|identifiant du tach est: %d\n", i + 1);
+                            printf("|le titre du tach: %s\n", T1[i]);
+                            printf("|la description du tach: %s\n", T2[i]);
+                            printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                            printf("|le statut du tach: %s\n", T6[i]);
+                            printf("________________________________________________________\n\n");
+                            trouver = 1;
+                            printf("________________________________________________________\n");
+                            printf("|identifiant du tach est: %d\n", i + 1);
+                            printf("|le titre du tach: %s\n", T1[i]);
+                            printf("|la description du tach: %s\n", T2[i]);
+                            printf("|la deadline du tach: %d/%d/%d\n", T5[i], T4[i], T3[i]);
+                            printf("|le statut du tach: %s\n", T6[i]);
+                            printf("________________________________________________________\n\n");
+                        }
+                    }
+                    if (!trouver)
+                    {
+                        printf("\n\n________________________________________________________\n");
+                        printf("==> Titre invalide\n");
+                        printf("________________________________________________________\n");
+                    }
+                    break;
+
+                case 3:
+                    printf("\n\n________________________________________________________\n");
+                    printf("Aucune tache a modifier");
+                    printf("\n________________________________________________________\n");
+                    break;
+                default:
+                    printf("\n\n________________________________________________________\n");
+                    printf("==> choix invalide");
+                    printf("\n________________________________________________________\n");
+                    break;
+                }
+            }
 
         case 7:
             A = totaltach - timeout;
